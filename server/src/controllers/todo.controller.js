@@ -26,14 +26,14 @@ const editTodo = asyncHandler(async (req, res) => {
       const {content, priority, isCompleted} = req.body
       const {todoId} = req.params
 
-      if(!content && !priority && !isCompleted){
+      if(!content && !priority && isCompleted === undefined){
         throw new ApiError(400, "At least one field is required")
       }
 
       const updatingObj = {}
       if(content) updatingObj.content = content
       if(priority) updatingObj.priority = priority
-      if(isCompleted) updatingObj.isCompleted = isCompleted
+      if(isCompleted !== undefined) updatingObj.isCompleted = isCompleted
 
       const updatedTodo = await Todo.findByIdAndUpdate(todoId, {
         $set : updatingObj
@@ -73,7 +73,7 @@ const deleteTodo = asyncHandler(async (req, res) => {
 // we will get all the todos from the database and if we have to perform any filter we will do that in the frontend
 const getTodos = asyncHandler(async (req, res) => {
     try {
-        const todos = await Todo.find({}).sort({createdAt : -1})
+        const todos = await Todo.find({}).sort({createdAt : 1})
         return res.status(200).json(new ApiResponse(200, "Todos fetched successfully", todos))
     } catch (error) {
         console.log("Error while fetching todos", error)
