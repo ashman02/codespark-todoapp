@@ -207,7 +207,7 @@ function App() {
           {todos.map((todo) => (
             <div
               key={todo._id}
-              className="bg-white rounded-xl shadow-sm border border-indigo-50 p-4 transition-all hover:shadow-md"
+              className="bg-white rounded-xl shadow-sm border border-indigo-50 p-4 transition-all hover:shadow-md cursor-text"
               onClick={() => handleTodoClick(todo)}
             >
               {editingId === todo._id ? (
